@@ -32,7 +32,24 @@ class Graph:
         self._root = root
 
     def dfs(self) -> list[Node]:
-        raise NotImplementedError
+        stack, visited = [self._root], set()
+        result = []
+        while stack:
+            vertex = stack.pop()
+            if vertex not in visited:
+                visited.add(vertex)
+                result.append(vertex)
+            for neighbour in reversed(vertex.outbound):
+                if neighbour not in visited:
+                    stack.append(neighbour)
+        return result
 
     def bfs(self) -> list[Node]:
-        raise NotImplementedError
+        queue, visited = [self._root], [self._root]
+        while queue:
+            vertex = queue.pop(0)
+            for neighbour in vertex.outbound:
+                if neighbour not in visited:
+                    visited.append(neighbour)
+                    queue.append(neighbour)
+        return visited
